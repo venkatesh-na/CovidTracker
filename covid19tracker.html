@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/31efa13219.js" crossorigin="anonymous"></script>
+    <title>Covid Tracker</title>
+    <style>
+        *
+        {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            color:white;
+        }
+        html
+        {
+            scroll-behavior: smooth;
+        }
+        body
+        {
+            background-color:rgb(26, 15, 26);
+            height: 100vh;
+            width:100%;
+        }
+        #root
+        {
+            height: 100vh;
+            width: 100%;
+        }
+       
+        .search
+        {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+           justify-content: center;
+           height: 32px;
+           margin-top:82px;
+           margin-bottom: 82px;
+          
+        }
+        .search h5
+        {
+            text-align: center;
+            color:rgb(226, 189, 226);
+        }
+        .search div
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            
+        }
+        .search div button img
+        {
+            pointer-events: none;
+        }
+        .search div button
+        {
+            padding:0px 8px;
+            
+           
+        }
+        .search input
+        {
+            width: 40vw;
+            height: 100%;
+            outline:none;
+        }
+        .track
+        {
+            width:100%;
+           display: flex;
+           flex-wrap: wrap;
+            justify-content: center;
+
+        }
+        .track .CountryCode
+        {
+            border:2px solid black;
+            width:200px;
+            min-height: 200px;
+            margin:10px;
+            background-color: hsl(288, 100%, 3%);
+            border-radius: 5px;
+            animation: div 0.5s linear 1;
+        }
+        .track .CountryCode h1
+        {
+            color:rgb(226, 189, 226);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .track .CountryCode h4
+        {
+            text-align: center;
+        }
+        .track .CountryCode .one
+        {
+            font-size: 13px;
+        }
+        .track .CountryCode .two
+        {
+            font-size: 13px;
+        }
+        .track .CountryCode .three
+        {
+            font-size: 13px;
+        }
+        .track .CountryCode .confirmed
+        {
+            margin-top: 5px;
+            color:#007bff;
+            font-size: 12px;
+            border: 1px solid #007bff;
+            background-color: #01192e;
+            padding:3px 10px;
+        }
+        .track .CountryCode .death
+        {
+            color:#ff073a;
+            font-size: 12px;
+            border: 1px solid #ff073a;
+            background-color: rgb(24, 0, 0);
+            padding:3px 10px;
+        }
+        .track .CountryCode .recover
+        {
+            color:#28a745;
+            font-size: 12px;
+            border:1px solid #28a745;
+            background-color: #051409;
+            padding:3px 10px;
+        }   
+        
+        .input
+        {
+            color:black;
+            outline:none;
+           
+        }
+        #home
+        {
+            height: 100vh;
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #home h1
+        {
+            font-size: 100px;
+            margin: 20px;
+            animation: han 0.8s linear 1;
+            text-align: center;
+        }
+        @keyframes han
+        {
+            from{
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to{
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+       @keyframes div
+       {
+           from{
+               opacity: 0;
+               transform: translateY(30px);
+           }
+           to
+           {
+               opacity: 1;
+               transform: translateY(0px);
+           }
+       }
+        #home span
+        {
+            color:violet;
+        }   
+        #home a
+        {
+            background-color: rgb(26, 15, 26);
+            padding:7px 30px;
+            font-size: 32px;
+            border: none;
+            border:2px solid violet;
+           
+            margin: 20px;
+            text-decoration: none;
+            color:violet;
+            border-radius: 5px;
+            animation: han 0.8s linear 1;
+        }
+     
+        #home a:hover
+        {
+            color:white;
+            background-color: violet;
+            transition: all 0.5s linear;
+            box-shadow: 0px 0px 5px violet,
+                0px 0px 15px violet,
+                0px 0px 25px violet,
+                0px 0px 50px violet;
+        }
+        #home a:active
+        {
+            transform: scale(0.5);
+        }
+       @media screen and (max-width:500px)
+       {
+        #home h1
+        {
+            font-size: 50px;
+        }
+       }
+    </style>
+</head>
+<body>
+    <div id = "home">
+       <h1><span>Covid-19</span> Tracker</h1>
+        <a href = "#root">Track</a>
+    </div>
+    <div id = "root">
+        <div class = "search">
+            <h5>write 1st two letter of ISO code of country</h5>
+            <div>
+                <input placeholder = "eg: IN(for india)" class = "input" type = "text">
+                <button class = "se">
+                    <img src = "search_black_24dp.svg">
+                </button>
+            </div>
+        </div>
+        
+        
+        <div class = "track">
+
+        </div>
+    </div>
+</body>
+<script>
+    fetch("https://api.covid19api.com/summary").then((res)=>{
+        return res.json();
+    }).then((data)=>{
+        console.log(data.Countries)
+        let div3 = document.querySelector(".track")
+        console.log(div3)
+        let covid = data.Countries;
+        let m = covid.map((e)=>{
+            return `<div class = "CountryCode">
+                <h1>${e.Country}</h1>
+                    <h4 class = "one">NewConfirmed: ${e.NewConfirmed}</h4>
+                    <h4 class = "two">NewDeaths: ${e.NewDeaths}</h4>
+                    <h4 class = "three">NewRecovered: ${e.NewRecovered}</h4>
+                    <h4 class = "confirmed">TotalConfirmed: ${e.TotalConfirmed}</h4>
+                    <h4 class = "death">TotalDeath: ${e.TotalDeaths}</h4>
+                    <h4 class = "recover">TotalRecovered: ${e.TotalRecovered}</h4>
+                </div>`
+        })
+        m = m.join("")
+        div3.innerHTML = m
+        const input = document.querySelector(".input")
+        const se = document.querySelector(".se")
+        se.addEventListener("click",function(){
+           
+            let f = covid.filter((e)=>{
+               if(e.CountryCode == input.value.toUpperCase())
+               {
+                   return e;
+               }
+                
+            })
+            let m1 = f.map((e)=>{
+            return `<div class = "CountryCode">
+                    <h1>${e.Country}</h1>
+                    <h4 class = "one">NewConfirmed: ${e.NewConfirmed}</h4>
+                    <h4 class = "two">NewDeaths: ${e.NewDeaths}</h4>
+                    <h4 class = "three">NewRecovered: ${e.NewRecovered}</h4>
+                    <h4 class = "confirmed">TotalConfirmed: ${e.TotalConfirmed}</h4>
+                    <h4 class = "death">TotalDeath: ${e.TotalDeaths}</h4>
+                    <h4 class = "recover">TotalRecovered: ${e.TotalRecovered}</h4>
+                </div>`
+        })
+        m1 = m1.join("")
+        div3.innerHTML = m1;
+         
+        })
+
+    })
+   
+</script>
+</html>
